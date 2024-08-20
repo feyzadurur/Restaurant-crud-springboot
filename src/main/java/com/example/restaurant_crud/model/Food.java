@@ -11,31 +11,75 @@ public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private final Integer foodId;
-    private final String foodTitle;
-    private final String foodDescription;
+    private Integer foodId;
+    private String foodTitle;
+    private String foodDescription;
 
     @Enumerated(EnumType.STRING)
-    private final FoodType foodType;
-    private final String foodImage;
-    private final Double foodPrice;
+    private FoodType foodType;
+    private String foodImage;
+    private Double foodPrice;
 
 
     @ManyToOne()
     @JoinColumn(name="order_id",nullable = false)
     private Order order ;
 
-    public Food(String foodTitle, Integer foodId, String foodDescription, FoodType foodType, Double foodPrice, String foodImage) {
-        this.foodTitle = foodTitle;
-        this.foodId = foodId;
-        this.foodDescription = foodDescription;
-        this.foodType = foodType;
-        this.foodPrice = foodPrice;
-        this.foodImage = foodImage;
-    }
 
-    public Integer getFoodId() {
+    //Getter and setter
+    public Integer foodId() {
         return foodId;
     }
 
+    public void setFoodId(Integer foodId) {
+        this.foodId = foodId;
+    }
+
+    public String foodTitle() {
+        return foodTitle;
+    }
+
+    public void setFoodTitle(String foodTitle) {
+        this.foodTitle = foodTitle;
+    }
+
+    public String foodDescription() {
+        return foodDescription;
+    }
+
+    public void setFoodDescription(String foodDescription) {
+        this.foodDescription = foodDescription;
+    }
+
+    public FoodType foodType() {
+        return foodType;
+    }
+
+    public void setFoodType(FoodType foodType) {
+        this.foodType = foodType;
+    }
+
+    public String foodImage() {
+        return foodImage;
+    }
+
+    public void setFoodImage(String foodImage) {
+        this.foodImage = foodImage;
+    }
+
+    public Double foodPrice() {
+        return foodPrice;
+    }
+
+    public void setFoodPrice(Double foodPrice) {
+        this.foodPrice = foodPrice;
+    }
+
+    public Order order() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 }
