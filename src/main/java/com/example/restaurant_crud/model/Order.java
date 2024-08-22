@@ -1,57 +1,92 @@
 package com.example.restaurant_crud.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
 @Entity
-@Table(name="orders")
-public class Order {
+@Table(name = "orders")
+public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
+    private Long orderId;
 
-    private Integer orderId;
-    private Integer orderQuantity;
-    private OrderStatus orderStatus;
+    @Column(name = "order_user")
+    private Long orderUser;
 
-    @ManyToOne
-    @JoinColumn(name="food_id")
+    @Column(name = "order_address")
+    private String orderAddress;
 
-    //Getter and setter
-    private Food food;
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm")
+    @Column(name = "order_date")
+    private Date orderDate;
 
-    public Integer orderQuantity() {
-        return orderQuantity;
+    @Column(name = "order_status")
+    private Integer orderStatus;
+
+    @OneToMany(mappedBy = "orderId")
+    private List<OrderItem> orderItems;
+
+    public Order(Long orderId, Long orderUser, String orderAddress, Date orderDate, Integer orderStatus, List<OrderItem> orderItems) {
+        this.orderId = orderId;
+        this.orderUser = orderUser;
+        this.orderAddress = orderAddress;
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
+        this.orderItems = orderItems;
     }
 
-    public Order setOrderQuantity(Integer orderQuantity) {
-        this.orderQuantity = orderQuantity;
-        return this;
-    }
-
-    public Integer orderId() {
+    public Long orderId() {
         return orderId;
     }
 
-    public Order setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
-        return this;
     }
 
-    public OrderStatus orderStatus() {
+    public Long orderUser() {
+        return orderUser;
+    }
+
+    public void setOrderUser(Long orderUser) {
+        this.orderUser = orderUser;
+    }
+
+    public String orderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
+    }
+
+    public Date orderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Integer orderStatus() {
         return orderStatus;
     }
 
-    public Order setOrderStatus(OrderStatus orderStatus) {
+    public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus;
-        return this;
     }
 
-    public Food food() {
-        return food;
+    public List<OrderItem> orderItems() {
+        return orderItems;
     }
 
-    public Order setFood(Food food) {
-        this.food = food;
-        return this;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
+
