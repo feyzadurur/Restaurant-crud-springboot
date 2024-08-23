@@ -1,4 +1,4 @@
-package com.example.restaurant_crud.model;
+package com.example.restaurant_crud.model.enums;
 
 import java.util.Arrays;
 import java.util.Optional;

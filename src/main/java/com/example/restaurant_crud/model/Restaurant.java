@@ -23,15 +23,19 @@ public class Restaurant {
     @Column(name = "restaurant_email",nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "restaurantId")
+    /*@OneToMany(mappedBy = "restaurantId")
     private List<Product> menu;
-
+*/
     public Restaurant(Long restaurantId, String restaurantName, String restaurantPhone, String email, List<Product> menu) {
         this.restaurantId = restaurantId;
         this.restaurantName = restaurantName;
         this.restaurantPhone = restaurantPhone;
         this.email = email;
-        this.menu = menu;
+//        this.menu = menu;
+    }
+
+    public Restaurant() {
+
     }
 
     public Long restaurantId() {
@@ -66,11 +70,11 @@ public class Restaurant {
         this.email = email;
     }
 
-    public List<Product> menu() {
+    /*public List<Product> menu() {
         return menu;
     }
 
     public void setMenu(List<Product> menu) {
         this.menu = menu;
-    }
+    }*/
 }

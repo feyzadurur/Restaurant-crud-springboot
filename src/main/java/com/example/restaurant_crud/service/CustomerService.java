@@ -2,8 +2,8 @@ package com.example.restaurant_crud.service;
 
 import com.example.restaurant_crud.model.Customer;
 import com.example.restaurant_crud.repository.CustomerRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,47 +16,42 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+
     public List<Customer> listCustomer(){
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> findCustomerById(Long id) {
-        return customerRepository.findById(id);
-    }
 
-    public Customer addCustomer(Customer customer) {
-        return customerRepository.save(customer);
-    }
-
-    public ResponseEntity<Customer> updateCustomer(Long id, Customer customer) {
-        Optional<Customer> optionalCustomer=customerRepository.findById(id);
-
-        if (optionalCustomer==null){
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Customer> findCustomerById(Long id) {
+        Optional<Customer> optionalCustomer= customerRepository.findById(id);
+        if (optionalCustomer.isPresent()){
+            return new ResponseEntity<>(optionalCustomer.get(), HttpStatus.OK);
         }
-
-        Customer customer1 = optionalCustomer.get();
-        BeanUtils.copyProperties(customer,customer1,"id");
-
-        customer1=customerRepository.save(customer1);
-
-        return ResponseEntity.ok(customer1);
-
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Void> deleteCustomer(Long id) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
-        if (optionalCustomer.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Customer> addCustomer(Customer customer) {
+        customer=customerRepository.save(customer);
+        return new ResponseEntity<>(customer,HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<Customer> updateCustomer(Long id, Customer newCustomer) {
+        Optional<Customer> oldCustomer=customerRepository.findById(id);
+        if (oldCustomer.isPresent()){
+            Customer updatedCustomer = oldCustomer.get();
+            updatedCustomer.setName(newCustomer.name());
+            updatedCustomer.setPassword(newCustomer.password());
+
+            Customer customer=customerRepository.save(updatedCustomer);
+            return new ResponseEntity<>(customer,HttpStatus.OK);
         }
-
-        Customer customer = optionalCustomer.get();
-        customerRepository.delete(customer);
-
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-
+    public ResponseEntity<HttpStatus> deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

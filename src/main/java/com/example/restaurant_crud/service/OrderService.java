@@ -2,7 +2,7 @@ package com.example.restaurant_crud.service;
 
 import com.example.restaurant_crud.model.Order;
 import com.example.restaurant_crud.model.OrderItem;
-import com.example.restaurant_crud.model.TypeStatus;
+import com.example.restaurant_crud.model.enums.TypeStatus;
 import com.example.restaurant_crud.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
