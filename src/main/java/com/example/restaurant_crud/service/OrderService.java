@@ -2,6 +2,7 @@ package com.example.restaurant_crud.service;
 
 import com.example.restaurant_crud.model.Order;
 import com.example.restaurant_crud.model.OrderItem;
+import com.example.restaurant_crud.model.TypeStatus;
 import com.example.restaurant_crud.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,14 +35,18 @@ public class OrderService {
 
     public ResponseEntity<Order> cancelOrder(Long id) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
-        if (optionalOrder == null) {
+
+        if (!optionalOrder.isPresent()) { // optionalOrder == null değil, isPresent() kontrolü yapılmalı
             return ResponseEntity.notFound().build();
         }
-        Order order=optionalOrder.get();
+
+        Order order = optionalOrder.get();
         order.setOrderStatus(TypeStatus.CANCELED.getCode());
         order = orderRepository.save(order);
+
         return ResponseEntity.ok(order);
     }
+
 
     public ResponseEntity<Collection<OrderItem>> findItemsByOrderId(Long id) {
 
