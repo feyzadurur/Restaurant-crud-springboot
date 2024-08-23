@@ -1,11 +1,6 @@
 package com.example.restaurant_crud.model;
 
-
 import jakarta.persistence.*;
-
-
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customers")
